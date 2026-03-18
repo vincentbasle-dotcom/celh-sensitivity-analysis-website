@@ -1,1 +1,84 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Celsius Holdings Sensitivity Analysis</title>\n    <link rel="stylesheet" href="styles.css">\n</head>\n<body>\n    <header>\n        <h1>Celsius Holdings Sensitivity Analysis</h1>\n    </header>\n    <main>\n        <section id="analysis">\n            <h2>Sensitivity Analysis Overview</h2>\n            <p>This website provides a detailed sensitivity analysis for Celsius Holdings. You can explore various scenarios and their potential impacts on the company.</p>\n        </section>\n        <section id="scenarios">\n            <h2>Scenarios</h2>\n            <ul>\n                <li>Scenario 1: Best Case</li>\n                <li>Scenario 2: Base Case</li>\n                <li>Scenario 3: Worst Case</li>\n            </ul>\n        </section>\n    </main>\n    <footer>\n        <p>&copy; 2026 Celsius Holdings</p>\n    </footer>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celsius Holdings DCF Sensitivity Analysis Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: none;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Celsius Holdings DCF Sensitivity Analysis Tool</h1>
+    <label for="wacc">WACC (%)</label>
+    <input type="range" id="wacc" min="0" max="20" value="10" step="0.1" oninput="updateResults()">
+    <span id="waccValue">10%</span>
+
+    <label for="terminalGrowth">Terminal Growth Rate (%)</label>
+    <input type="range" id="terminalGrowth" min="0" max="10" value="5" step="0.1" oninput="updateResults()">
+    <span id="terminalGrowthValue">5%</span>
+
+    <label for="fcfGrowth">FCF Growth Projections (%)</label>
+    <input type="range" id="fcfGrowth" min="0" max="20" value="10" step="0.1" oninput="updateResults()">
+    <span id="fcfGrowthValue">10%</span>
+
+    <div id="results">
+        <h2>Results</h2>
+        <p>Enterprise Value: <span id="enterpriseValue">$0</span></p>
+        <p>Equity Value: <span id="equityValue">$0</span></p>
+        <p>Intrinsic Share Price: <span id="intrinsicSharePrice">$0</span></p>
+    </div>
+
+    <script>
+        function updateResults() {
+            const wacc = parseFloat(document.getElementById('wacc').value);
+            const terminalGrowth = parseFloat(document.getElementById('terminalGrowth').value);
+            const fcfGrowth = parseFloat(document.getElementById('fcfGrowth').value);
+
+            document.getElementById('waccValue').innerText = wacc + "%";
+            document.getElementById('terminalGrowthValue').innerText = terminalGrowth + "%";
+            document.getElementById('fcfGrowthValue').innerText = fcfGrowth + "%";
+
+            const enterpriseValue = calculateEnterpriseValue(wacc, terminalGrowth, fcfGrowth);
+            const equityValue = enterpriseValue - calculateDebt(); // Assume a constant debt value
+            const intrinsicSharePrice = equityValue / sharesOutstanding(); // Assume a constant number of shares
+            
+            document.getElementById('enterpriseValue').innerText = "$" + enterpriseValue.toFixed(2);
+            document.getElementById('equityValue').innerText = "$" + equityValue.toFixed(2);
+            document.getElementById('intrinsicSharePrice').innerText = "$" + intrinsicSharePrice.toFixed(2);
+        }
+
+        function calculateEnterpriseValue(wacc, terminalGrowth, fcfGrowth) {
+            // Simple valuation logic for demonstration
+            return (fcfGrowth * 10) - (wacc * 100) + (terminalGrowth * 50);
+        }
+
+        function calculateDebt() {
+            return 100; // Assume a constant debt for this example
+        }
+
+        function sharesOutstanding() {
+            return 1000; // Assume a constant number of shares
+        }
+    </script>
+</body>
+</html>
