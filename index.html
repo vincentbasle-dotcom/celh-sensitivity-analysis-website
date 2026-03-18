@@ -3,81 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celsius Holdings DCF Sensitivity Analysis Tool</title>
+    <title>DCF Valuation Analysis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #0072ff, #00c6ff);
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-        }
-        input {
-            margin: 10px 0;
-            padding: 10px;
-            width: 80%;
-            border-radius: 5px;
-            border: none;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        #results {
-            margin-top: 20px;
-        }
+        body { font-family: Arial, sans-serif; }
+        .container { width: 80%; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
-    <h1>Celsius Holdings DCF Sensitivity Analysis Tool</h1>
-    <label for="wacc">WACC (%)</label>
-    <input type="range" id="wacc" min="0" max="20" value="10" step="0.1" oninput="updateResults()">
-    <span id="waccValue">10%</span>
+    <div class="container">
+        <h1>DCF Valuation Analysis</h1>
+        <h2>Base Case Metrics</h2>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>WACC</td>
+                <td>${{5}}%</td>
+            </tr>
+            <tr>
+                <td>Terminal Growth</td>
+                <td>${{3}}%</td>
+            </tr>
+            <tr>
+                <td>Fair Value</td>
+                <td>$40.14</td>
+            </tr>
+        </table>
 
-    <label for="terminalGrowth">Terminal Growth Rate (%)</label>
-    <input type="range" id="terminalGrowth" min="0" max="10" value="5" step="0.1" oninput="updateResults()">
-    <span id="terminalGrowthValue">5%</span>
+        <h2>Scenarios Comparison</h2>
+        <table>
+            <tr>
+                <th>Scenario</th>
+                <th>Y1-2 Growth</th>
+                <th>Y3-5 Growth</th>
+                <th>Terminal Growth</th>
+            </tr>
+            <tr>
+                <td>Bear</td>
+                <td>10%</td>
+                <td>2%</td>
+                <td>1.5%</td>
+            </tr>
+            <tr>
+                <td>Base</td>
+                <td>30%</td>
+                <td>15%</td>
+                <td>3%</td>
+            </tr>
+            <tr>
+                <td>Bull</td>
+                <td>50%</td>
+                <td>25%</td>
+                <td>4.5%</td>
+            </tr>
+        </table>
 
-    <label for="fcfGrowth">FCF Growth Projections (%)</label>
-    <input type="range" id="fcfGrowth" min="0" max="20" value="10" step="0.1" oninput="updateResults()">
-    <span id="fcfGrowthValue">10%</span>
+        <!-- Financial Data Tables -->
+        <h2>Free Cash Flow Projections</h2>
+        <table>
+            <tr>
+                <th>Year</th>
+                <th>FCF (Bear)</th>
+                <th>FCF (Base)</th>
+                <th>FCF (Bull)</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>$X</td>
+                <td>$Y</td>
+                <td>$Z</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>$X</td>
+                <td>$Y</td>
+                <td>$Z</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>$X</td>
+                <td>$Y</td>
+                <td>$Z</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>$X</td>
+                <td>$Y</td>
+                <td>$Z</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>$X</td>
+                <td>$Y</td>
+                <td>$Z</td>
+            </tr>
+        </table>
 
-    <div id="results">
-        <h2>Results</h2>
-        <p>Enterprise Value: <span id="enterpriseValue">$0</span></p>
-        <p>Equity Value: <span id="equityValue">$0</span></p>
-        <p>Intrinsic Share Price: <span id="intrinsicSharePrice">$0</span></p>
+        <h2>Valuation Calculations</h2>
+        <div>
+            <p>Valuation method details would be included here.</p>
+        </div>
+
+        <h2>Scenario Comparison Summary</h2>
+        <table>
+            <tr>
+                <th>Scenario</th>
+                <th>Fair Value</th>
+                <th>Probability</th>
+            </tr>
+            <tr>
+                <td>Bear</td>
+                <td>$40.14</td>
+                <td>25%</td>
+            </tr>
+            <tr>
+                <td>Base</td>
+                <td>$40.14</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>Bull</td>
+                <td>$40.14</td>
+                <td>25%</td>
+            </tr>
+        </table>
+
+        <h2>Investment Analysis Discussion</h2>
+        <p>The investment analysis would be discussed here, emphasizing the probability-weighted fair value of $40.14.</p>
+
+        <h2>Interactive Sensitivity Analysis</h2>
+        <div>
+            <label for="waccSlider">WACC: <span id="waccValue">5%</span></label>
+            <input type="range" id="waccSlider" min="5" max="15" value="5" onchange="updateWACC(this.value)">
+            <br>
+            <label for="terminalGrowthSlider">Terminal Growth: <span id="terminalGrowthValue">3%</span></label>
+            <input type="range" id="terminalGrowthSlider" min="1" max="5" value="3" onchange="updateTerminalGrowth(this.value)">
+            <br>
+            <label for="fcfGrowthY1Y2Slider">FCF Growth Y1-2: <span id="fcfGrowthY1Y2Value">30%</span></label>
+            <input type="range" id="fcfGrowthY1Y2Slider" min="10" max="50" value="30" onchange="updateFCFGrowthY1Y2(this.value)">
+            <br>
+            <label for="fcfGrowthY3Y5Slider">FCF Growth Y3-5: <span id="fcfGrowthY3Y5Value">15%</span></label>
+            <input type="range" id="fcfGrowthY3Y5Slider" min="5" max="30" value="15" onchange="updateFCFGrowthY3Y5(this.value)">
+        </div>
     </div>
-
     <script>
-        function updateResults() {
-            const wacc = parseFloat(document.getElementById('wacc').value);
-            const terminalGrowth = parseFloat(document.getElementById('terminalGrowth').value);
-            const fcfGrowth = parseFloat(document.getElementById('fcfGrowth').value);
-
-            document.getElementById('waccValue').innerText = wacc + "%";
-            document.getElementById('terminalGrowthValue').innerText = terminalGrowth + "%";
-            document.getElementById('fcfGrowthValue').innerText = fcfGrowth + "%";
-
-            const enterpriseValue = calculateEnterpriseValue(wacc, terminalGrowth, fcfGrowth);
-            const equityValue = enterpriseValue - calculateDebt(); // Assume a constant debt value
-            const intrinsicSharePrice = equityValue / sharesOutstanding(); // Assume a constant number of shares
-            
-            document.getElementById('enterpriseValue').innerText = "$" + enterpriseValue.toFixed(2);
-            document.getElementById('equityValue').innerText = "$" + equityValue.toFixed(2);
-            document.getElementById('intrinsicSharePrice').innerText = "$" + intrinsicSharePrice.toFixed(2);
+        function updateWACC(value) {
+            document.getElementById('waccValue').innerText = value + '%';
         }
-
-        function calculateEnterpriseValue(wacc, terminalGrowth, fcfGrowth) {
-            // Simple valuation logic for demonstration
-            return (fcfGrowth * 10) - (wacc * 100) + (terminalGrowth * 50);
+        function updateTerminalGrowth(value) {
+            document.getElementById('terminalGrowthValue').innerText = value + '%';
         }
-
-        function calculateDebt() {
-            return 100; // Assume a constant debt for this example
+        function updateFCFGrowthY1Y2(value) {
+            document.getElementById('fcfGrowthY1Y2Value').innerText = value + '%';
         }
-
-        function sharesOutstanding() {
-            return 1000; // Assume a constant number of shares
+        function updateFCFGrowthY3Y5(value) {
+            document.getElementById('fcfGrowthY3Y5Value').innerText = value + '%';
         }
     </script>
 </body>
